@@ -9,6 +9,7 @@ The standard LCS is indeed a special case (constant weights equals to 1) of the 
 
 ## Example
 
+The element to compare must implement the WithKey and Weightable interfaces:
 ```java
 public class Link implements WithKey, Weightable {
 
