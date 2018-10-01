@@ -8,4 +8,4 @@ The standard LCS is indeed a special case (constant weights equals to 1) of the 
 
 The example below shows the resolved example of a generic involving elements with different weights (in red).
 
-![alt text](https://github.com/sdecri/bcs/master/bcs.png)
+![Alt text](bcs.png?raw=true "Title")
