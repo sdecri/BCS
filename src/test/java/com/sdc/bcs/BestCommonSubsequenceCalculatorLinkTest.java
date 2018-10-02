@@ -14,6 +14,7 @@ import org.hamcrest.collection.IsIterableContainingInOrder;
 import org.junit.Test;
 
 import com.sdc.bcs.api.BestCommonSequence;
+import com.sdc.bcs.api.SequenceIndexes;
 import com.sdc.bcs.test.element.Link;
 
 /**
@@ -61,11 +62,14 @@ public class BestCommonSubsequenceCalculatorLinkTest {
         
         assertThat(bcs.getWeight(), is(equalTo(expectedBestWeight)));
         
-        List<Link> expectedList = 
-                Arrays.asList(new Link(8, 80, 100), new Link(7, 70, 50));
-        assertThat(bcs.getSequence(), IsIterableContainingInOrder.contains(expectedList.toArray()));
+        List<Link> expectedSequence = 
+                Arrays.asList(new Link(8, 80, 100), new Link(7, 70, 20));
+        assertThat(bcs.getSequence(), IsIterableContainingInOrder.contains(expectedSequence.toArray()));
 
-        
+        List<SequenceIndexes> expectedSequenceIndexes = 
+                Arrays.asList(new SequenceIndexes(0, 4), new SequenceIndexes(1, 7));
+        assertThat(bcs.getSequenceIndexes(), IsIterableContainingInOrder.contains(expectedSequenceIndexes.toArray()));
+
         
     }
     

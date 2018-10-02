@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sdc.bcs.api.BestCommonSequence;
+import com.sdc.bcs.api.SequenceIndexes;
 import com.sdc.bcs.api.Weightable;
 import com.sdc.bcs.api.WithKey;
 
@@ -82,27 +83,28 @@ public class BestCommonSubsequenceCalculator<T extends WithKey & Weightable> {
             int i = s1.length;
             int j = s2.length;
 
-            List<T> sequence = backTrack(i, j, s1, s2, wm);
+            BackTrackResult backTrackResult = backTrack(i, j, s1, s2, wm);
             
-            return new BestCommonSequence<>(wm[i][j], sequence);
+            return new BestCommonSequence<>(wm[i][j], backTrackResult.sequence, backTrackResult.sequenceIndexes);
             
         }
         else
-            return new BestCommonSequence<>(0, Collections.emptyList());
+            return new BestCommonSequence<>(0, Collections.emptyList(), Collections.emptyList());
 
     }
 
-    private List<T> backTrack(int i, int j, T[] s1, T[] s2, double[][] wm) {
+    private BackTrackResult backTrack(int i, int j, T[] s1, T[] s2, double[][] wm) {
 
         if (i == 0 || j == 0)
-            return new ArrayList<>();
+            return new BackTrackResult(new ArrayList<>(), new ArrayList<>());
 
-        List<T> partialSequence = null;
+        BackTrackResult partialSequence = null;
 
         if (s1[i-1].hasSameKey(s2[j-1])) {
 
             partialSequence = backTrack(i - 1, j - 1, s1, s2, wm);
-            partialSequence.add(s1[i-1]);
+            partialSequence.sequence.add(s1[i-1].getWeigth() < s2[j-1].getWeigth() ? s1[i-1] : s2[j-1]);
+            partialSequence.sequenceIndexes.add(new SequenceIndexes(i-1, j-1));
 
         }
         else {
@@ -118,4 +120,23 @@ public class BestCommonSubsequenceCalculator<T extends WithKey & Weightable> {
         return partialSequence;
     }
 
+    
+    private class BackTrackResult{
+        
+        List<T> sequence;
+        List<SequenceIndexes> sequenceIndexes;
+        /**
+         * @param sequence
+         * @param sequenceIndexes
+         */
+        public BackTrackResult(List<T> sequence, List<SequenceIndexes> sequenceIndexes) {
+
+            super();
+            this.sequence = sequence;
+            this.sequenceIndexes = sequenceIndexes;
+        }
+        
+        
+    }
+    
 }

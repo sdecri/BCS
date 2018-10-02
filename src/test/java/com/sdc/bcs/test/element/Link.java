@@ -3,6 +3,9 @@
  */
 package com.sdc.bcs.test.element;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import com.sdc.bcs.api.Weightable;
 import com.sdc.bcs.api.WithKey;
 
@@ -59,18 +62,30 @@ public class Link implements WithKey, Weightable {
         
     }
     
+    
+    @Override
+    public int hashCode() {
+
+        return new HashCodeBuilder().append(id).append(tail).append(length).toHashCode();
+    }
+    
     @Override
     public boolean equals(Object obj) {
-
+    
         if (obj == null || !obj.getClass().equals(getClass()))
             return false;
         if (obj == this)
             return true;
-
-        Link other = (Link) obj;
-        return hasSameKey(other);
-    }
     
+        Link other = (Link) obj;
+        EqualsBuilder equalsBuilder = new EqualsBuilder();
+        equalsBuilder
+        .append(id, other.id)
+        .append(tail, other.tail)
+        .append(length, other.length)
+        ;
+        return equalsBuilder.isEquals();
+    }
     
     /**
      * @return the {@link Link#id}
