@@ -133,5 +133,6 @@ public class Main{
 
 
 The example below shows the resolved example involving elements with different weights (in red).
+Notice that the element "L7" has different weight in the two sequences, in this case the minimum weight between the two objects is considered.
 
 ![Alt text](bcs.png?raw=true "Title")
