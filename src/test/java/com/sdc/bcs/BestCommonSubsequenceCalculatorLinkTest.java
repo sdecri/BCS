@@ -46,14 +46,14 @@ public class BestCommonSubsequenceCalculatorLinkTest {
                 , new Link(8, 80, 100)
                 , new Link(4, 40, 1)
                 , new Link(1, 10, 1)
-                , new Link(7, 70, 50)
+                , new Link(7, 70, 20)
                 , new Link(3, 30, 10)
         };
         
         BestCommonSubsequenceCalculator<Link> calculator =
                 new BestCommonSubsequenceCalculator<>();
         
-        double expectedBestWeight = 150.;
+        double expectedBestWeight = 120.;
         
         assertThat(calculator.getBestWeight(s1, s2), is(equalTo(expectedBestWeight)));
         

@@ -45,7 +45,7 @@ public class BestCommonSubsequenceCalculator<T extends WithKey & Weightable> {
                 else {
 
                     if (s1[i-1].hasSameKey(s2[j-1]))
-                        wm[i][j] = wm[i - 1][j - 1] + s1[i-1].getWeigth();
+                        wm[i][j] = wm[i - 1][j - 1] + Math.min(s1[i-1].getWeigth(), s2[j-1].getWeigth());
                     else
                         wm[i][j] = wm[i - 1][j] >= wm[i][j - 1] 
                         ?  wm[i - 1][j] : wm[i][j - 1];
