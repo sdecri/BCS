@@ -95,29 +95,32 @@ public class BestCommonSubsequenceCalculator<T extends WithKey & Weightable> {
 
     private BackTrackResult backTrack(int i, int j, T[] s1, T[] s2, double[][] wm) {
 
-        if (i == 0 || j == 0)
-            return new BackTrackResult(new ArrayList<>(), new ArrayList<>());
+        List<T> sequence = new ArrayList<>();
+        List<SequenceIndexes> sequenceIndexes = new ArrayList<>();
 
-        BackTrackResult partialSequence = null;
-
-        if (s1[i-1].hasSameKey(s2[j-1])) {
-
-            partialSequence = backTrack(i - 1, j - 1, s1, s2, wm);
-            partialSequence.sequence.add(s1[i-1].getWeigth() < s2[j-1].getWeigth() ? s1[i-1] : s2[j-1]);
-            partialSequence.sequenceIndexes.add(new SequenceIndexes(i-1, j-1));
-
+        while(i > 0 && j > 0) {
+            
+            if (s1[i-1].hasSameKey(s2[j-1])) {
+              
+                sequence.add(s1[i-1].getWeigth() < s2[j-1].getWeigth() ? s1[i-1] : s2[j-1]);
+                sequenceIndexes.add(new SequenceIndexes(i-1, j-1));
+                i--;
+                j--;
+                
+            } else {
+                
+                if (wm[i - 1][j] >= wm[i][j - 1])
+                    i--;
+                else
+                    j--;
+                
+            }
+            
         }
-        else {
-            if (wm[i - 1][j] >= wm[i][j - 1])
-
-                partialSequence = backTrack(i - 1, j, s1, s2, wm);
-
-            else
-
-                partialSequence = backTrack(i, j - 1, s1, s2, wm);
-
-        }
-        return partialSequence;
+        
+        Collections.reverse(sequence);
+        Collections.reverse(sequenceIndexes);
+        return new BackTrackResult(sequence, sequenceIndexes);
     }
 
     
