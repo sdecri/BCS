@@ -45,11 +45,16 @@ public class BestCommonSubsequenceCalculator<T extends WithKey & Weightable> {
                     wm[i][j] = 0;
                 else {
 
-                    if (s1[i-1].hasSameKey(s2[j-1]))
-                        wm[i][j] = wm[i - 1][j - 1] + Math.min(s1[i-1].getWeigth(), s2[j-1].getWeigth());
+                    if (s1[i-1].hasSameKey(s2[j-1])) {
+                        double candidateValue = wm[i - 1][j - 1] + Math.min(s1[i-1].getWeigth(), s2[j-1].getWeigth());
+                        if(candidateValue < wm[i - 1][j] || candidateValue < wm[i][j - 1]) {
+                            candidateValue = Math.max(wm[i - 1][j], wm[i][j - 1]);
+                        }
+                        wm[i][j] = candidateValue;
+                    }
+                        
                     else
-                        wm[i][j] = wm[i - 1][j] >= wm[i][j - 1] 
-                        ?  wm[i - 1][j] : wm[i][j - 1];
+                        wm[i][j] = Math.max(wm[i - 1][j], wm[i][j - 1]);
 
                 }
 
@@ -100,7 +105,7 @@ public class BestCommonSubsequenceCalculator<T extends WithKey & Weightable> {
 
         while(i > 0 && j > 0) {
             
-            if (s1[i-1].hasSameKey(s2[j-1])) {
+            if (wm[i][j] != wm[i - 1][j] && wm[i][j] != wm[i][j - 1]) {
               
                 sequence.add(s1[i-1].getWeigth() < s2[j-1].getWeigth() ? s1[i-1] : s2[j-1]);
                 sequenceIndexes.add(new SequenceIndexes(i-1, j-1));

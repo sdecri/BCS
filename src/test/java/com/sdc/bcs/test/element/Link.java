@@ -18,7 +18,27 @@ public class Link implements WithKey, Weightable {
     private long id;
     private long tail;
     private int length;
+    private double driveableShare;
     
+    
+    
+
+    /**
+     * @param id
+     * @param tail
+     * @param length
+     * @param driveableShare
+     */
+    public Link(long id, long tail, int length, double driveableShare) {
+
+        super();
+        this.id = id;
+        this.tail = tail;
+        this.length = length;
+        this.driveableShare = driveableShare;
+    }
+    
+
 
     /**
      * @param id
@@ -26,10 +46,7 @@ public class Link implements WithKey, Weightable {
      * @param length
      */
     public Link(long id, long tail, int length) {
-        super();
-        this.id = id;
-        this.tail = tail;
-        this.length = length;
+        this(id, tail, length, 1);
     }
 
 
@@ -66,7 +83,7 @@ public class Link implements WithKey, Weightable {
     @Override
     public int hashCode() {
 
-        return new HashCodeBuilder().append(id).append(tail).append(length).toHashCode();
+        return new HashCodeBuilder().append(id).append(tail).append(length).append(driveableShare).toHashCode();
     }
     
     @Override
@@ -83,8 +100,19 @@ public class Link implements WithKey, Weightable {
         .append(id, other.id)
         .append(tail, other.tail)
         .append(length, other.length)
+        .append(driveableShare, other.driveableShare)
         ;
         return equalsBuilder.isEquals();
+    }
+    
+    /**
+    * {@inheritDoc}
+    */
+    @Override
+    public String toString() {
+    
+        return String.format("ID: %d, TAIL: %s, WEIGHT: %f, DRIV-SHARE: %f", id, tail, getWeigth(), driveableShare);
+        
     }
     
     /**
@@ -146,6 +174,28 @@ public class Link implements WithKey, Weightable {
     public void setLength(int length) {
     
         this.length = length;
+    }
+
+
+
+    
+    /**
+     * @return the {@link Link#driveableShare}
+     */
+    public double getDriveableShare() {
+    
+        return driveableShare;
+    }
+
+
+
+    
+    /**
+     * @param driveableShare the {@link Link#driveableShare} to set
+     */
+    public void setDriveableShare(double driveableShare) {
+    
+        this.driveableShare = driveableShare;
     }
 
 
